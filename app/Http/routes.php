@@ -16,7 +16,9 @@ Route::get('/', function () {
 });
 
 Route::auth();
+Route::resource('/admin', 'ExamController');
 
-Route::get('/quiz-list', 'QuizListController@index');
-Route::get('/examPaper', 'QuizExamController@index');
-Route::resource('/admin', 'QuizController');
+Route::auth();
+
+Route::delete('/home', 'HomeController@index');
+

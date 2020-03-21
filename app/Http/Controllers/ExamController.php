@@ -3,12 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Exam;
 use App\Http\Requests;
-use App\Quiz;
-use Auth;
+use Session;
 
-class QuizController extends Controller
+class ExamController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,7 +16,9 @@ class QuizController extends Controller
      */
     public function index()
     {
-        return view('quizPanel/quiz');
+        $examList = Exam::orderBy('id', 'desc')->get();
+        logger($examList);
+        return view('admin/examlist', compact('examList'));
     }
 
     /**
@@ -39,22 +40,16 @@ class QuizController extends Controller
     public function store(Request $request)
     {
         logger($request);
+        // $start_date_time = $request->examDate +' '+ $request->examTime;
+        $exam = Exam::create([
+            'name' => $request->examTitle, 
+            'start_date' => $request->examDate,
+            'start_time'=> $request->examTime, 
+            'duration' => $request->examDuration
+        ]);
 
-        $user = Auth::user();
-        if($user->isAdmin){
-            $quiz = new Quiz;
-
-            $quiz->name = $request->quiz_title;
-            $quiz->quiz_time = $request->date;
-
-            $quiz->save();
-
-            $request->session()->flash('alert-success', 'Successfully created');
-        } else {
-            $request->session()->flash('alert-danger', 'Something Wrong');
-        }
-
-        return redirect('admin');
+        Session::flash('alert-success', 'Exam created successfully');
+        return redirect()->route('admin.index');
     }
 
     /**
@@ -88,7 +83,16 @@ class QuizController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // dd($request->all());
+        $exam = Exam::where('id', $request->examId)->update([
+            'name' => $request->examTitle, 
+            'start_date' => $request->examDate,
+            'start_time'=> $request->examTime, 
+            'duration' => $request->examDuration
+        ]);
+
+        Session::flash('alert-success', 'Exam updated successfully');
+        return redirect()->route('admin.index');
     }
 
     /**
@@ -99,6 +103,12 @@ class QuizController extends Controller
      */
     public function destroy($id)
     {
-        //
+        logger('destroy');
+        logger($id);
+
+        Exam::where('id', $id)->delete();
+
+        Session::flash('alert-danger', 'Exam deleted successfully');
+        return redirect()->route('admin.index');
     }
 }

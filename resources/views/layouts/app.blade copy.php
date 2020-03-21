@@ -55,7 +55,7 @@
                 <!-- Left Side Of Navbar -->
                 @if(Auth::check())
                 <ul class="nav navbar-nav">
-                    <li><a href="{{ url('/quiz-list') }}">Quiz List</a></li>
+                    <!-- <li><a href="{{ url('/quiz-list') }}">Quiz List</a></li> -->
                 </ul>
                 @if(Auth::user()->isAdmin)
                 <ul class="nav navbar-nav">
@@ -96,37 +96,5 @@
     {{-- <script src="{{ elixir('js/app.js') }}"></script> --}}
     <script type="text/javascript" src="{{ asset('js/bootstrap-datetimepicker.js') }}" charset="UTF-8"></script>
     <script type="text/javascript" src="{{ asset('js/bootstrap-datetimepicker.fr.js') }}" charset="UTF-8"></script>
-    <script type="text/javascript">
-    $('.form_datetime').datetimepicker({
-        //language:  'fr',
-        weekStart: 1,
-        todayBtn:  1,
-		autoclose: 1,
-		todayHighlight: 1,
-		startView: 2,
-		forceParse: 0,
-        showMeridian: 1
-    });
-	$('.form_date').datetimepicker({
-        language:  'fr',
-        weekStart: 1,
-        todayBtn:  1,
-		autoclose: 1,
-		todayHighlight: 1,
-		startView: 2,
-		minView: 2,
-		forceParse: 0
-    });
-	$('.form_time').datetimepicker({
-        language:  'fr',
-        weekStart: 1,
-        todayBtn:  1,
-		autoclose: 1,
-		todayHighlight: 1,
-		startView: 1,
-		minView: 0,
-		maxView: 1,
-		forceParse: 0
-    });
 </body>
 </html>

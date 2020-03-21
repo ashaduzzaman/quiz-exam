@@ -3,10 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests;
-use App\Quiz;
 use Illuminate\Http\Request;
 
-class QuizListController extends Controller
+class HomeController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -25,9 +24,6 @@ class QuizListController extends Controller
      */
     public function index()
     {
-        $quizes = Quiz::orderBy('id', 'desc')
-        ->get();
-        // logger($quizes);
-        return view('quizList', compact('quizes'));
+        return view('home');
     }
 }
