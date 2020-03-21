@@ -43,11 +43,11 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form method="POST" action="/admin">
+                    <form method="POST" action="/admin/exam-list">
                         {{ csrf_field() }}
                         <div class="form-group">
                             <label for="examTitle">Exam Title</label>
-                            <input type="text" class="form-control" id="examTitle" name="examTitle" aria-describedby="examTitle" placeholder="Enter exam title">
+                            <input type="text" class="form-control" id="examTitle" name="examTitle" aria-describedby="examTitle" placeholder="Enter exam title" required>
                         </div>
                         <!-- <div class="form-group">
                             <label for="examDate">Exam Date</label>
@@ -56,18 +56,18 @@
                         </div> -->
                         <div class="form-group">
                             {!! Form::label('examDate', 'Exam Date') !!}
-                            {!! Form::date('examDate', \Carbon\Carbon::now(), ['class' => 'form-control']) !!}
+                            {!! Form::date('examDate', \Carbon\Carbon::now(), ['class' => 'form-control','required']) !!}
                         </div>
                         <div class="form-group">
                             <!-- <label for="examTime">Exam Time</label>
                             <input type="text" class="form-control" id="examTime" name="examTime" aria-describedby="examTime" placeholder="Enter exam time">
                             <small id="examTime" class="form-text text-muted">Ex: HH:mm:ss</small> -->
                             {!! Form::label('examTime', 'Exam Time') !!}
-                            {{ Form::time('examTime', Carbon\Carbon::now()->format('H:i:s'),  ['class' => 'form-control']) }}
+                            {{ Form::time('examTime', Carbon\Carbon::now()->format('H:i:s'),  ['class' => 'form-control', 'required']) }}
                         </div>
                         <div class="form-group">
                             <label for="examDuration">Exam Duration</label>
-                            <input type="text" class="form-control" id="examDuration" name="examDuration" aria-describedby="examDuration" placeholder="Enter exam duration">
+                            <input type="text" class="form-control" id="examDuration" name="examDuration" aria-describedby="examDuration" placeholder="Enter exam duration" required>
                             <small id="examDuration" class="form-text text-muted">Duration must be in minute</small>
                         </div>
                         <div class="modal-footer">
@@ -109,13 +109,12 @@
                         <button class="btn btn-raised btn-info btn-sm" data-examid="{{ $exam->id }}" data-examtitle="{{ $exam->name }}" data-examdate="{{ $exam->start_date }}" data-examtime="{{ $exam->start_time }}" data-examduration="{{ $exam->duration }}" data-toggle="modal" data-target="#editExamModal"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
                     </div>
                     <div class="col-xs-2">
-                        {!! Form::open(['route' => ['admin.destroy', $exam->id], 'method' => 'DELETE', 'style'=>'width:10%; margin:0; padding:0']) !!}
-                    <!-- {!! Form::submit('Delete', ['class' => 'btn btn-danger btn-block']) !!} -->
+                        {!! Form::open(['route' => ['admin.exam-list.destroy', $exam->id], 'method' => 'DELETE', 'style'=>'width:10%; margin:0; padding:0', 'onclick'=>"return confirm('Are you sure you want to delete this item?');" ]) !!}
                         <button type="submit" class="btn btn-raised btn-danger btn-sm"><i class="fa fa-trash-o"></i></button>
                         {!! Form::close() !!}
                     </div>
                     <div class="col-xs-2">
-                         <a class="btn btn-success" href="">Set Question</a>
+                         <a class="btn btn-success" href="{{ route('admin.set-question.index', ['id' => $exam->id] )}}">Set Question</a>
                     </div>
                     </div>
                 </div>
@@ -138,13 +137,13 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form method="post" action="{{ route('admin.update', 'id')}}">
+                    <form method="post" action="{{ route('admin.exam-list.update', 'id')}}">
                         {{ method_field('put') }}
                         {{ csrf_field() }}
                         <input type="hidden" name="examId" id="examId" value="">
                         <div class="form-group">
                             <label for="examTitle">Exam Title</label>
-                            <input type="text" class="form-control" id="examTitle" name="examTitle" aria-describedby="examTitle" placeholder="Enter exam title">
+                            <input type="text" class="form-control" id="examTitle" name="examTitle" aria-describedby="examTitle" placeholder="Enter exam title" required>
                         </div>
                         <!-- <div class="form-group">
                             <label for="examDate">Exam Date</label>
@@ -159,18 +158,18 @@
                         </div> -->
                         <div class="form-group">
                             {!! Form::label('examDate', 'Exam Date') !!}
-                            {!! Form::date('examDate', \Carbon\Carbon::now(), ['class' => 'form-control', 'id'=> 'examDate']) !!}
+                            {!! Form::date('examDate', \Carbon\Carbon::now(), ['class' => 'form-control', 'id'=> 'examDate', 'required']) !!}
                         </div>
                         <div class="form-group">
                             <!-- <label for="examTime">Exam Time</label>
                             <input type="text" class="form-control" id="examTime" name="examTime" aria-describedby="examTime" placeholder="Enter exam time">
                             <small id="examTime" class="form-text text-muted">Ex: HH:mm:ss</small> -->
                             {!! Form::label('examTime', 'Exam Time') !!}
-                            {{ Form::time('examTime', Carbon\Carbon::now()->format('H:i:s'),  ['class' => 'form-control', 'id'=> 'examDate']) }}
+                            {{ Form::time('examTime', Carbon\Carbon::now()->format('H:i:s'),  ['class' => 'form-control', 'id'=> 'examTime', 'required']) }}
                         </div>
                         <div class="form-group">
                             <label for="examDuration">Exam Duration</label>
-                            <input type="text" class="form-control" id="examDuration" name="examDuration" aria-describedby="examDuration" placeholder="Enter exam duration">
+                            <input type="text" class="form-control" id="examDuration" name="examDuration" aria-describedby="examDuration" placeholder="Enter exam duration" required>
                             <small id="examDuration" class="form-text text-muted">Duration must be in minute</small>
                         </div>
                         <div class="modal-footer">

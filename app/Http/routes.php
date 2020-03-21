@@ -16,8 +16,11 @@ Route::get('/', function () {
 });
 
 Route::auth();
-Route::resource('/admin', 'ExamController');
-
+Route::group(['prefix' => 'admin'], function () {
+    Route::resource('exam-list', 'ExamController');
+    Route::resource('set-question', 'QuestionController');
+});
+// Route::resource('/admin', 'ExamController');
 Route::auth();
 
 Route::delete('/home', 'HomeController@index');

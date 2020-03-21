@@ -5,20 +5,21 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Exam;
 use App\Http\Requests;
-use Session;
 
-class ExamController extends Controller
+class QuestionController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $examList = Exam::orderBy('id', 'desc')->get();
-        logger($examList);
-        return view('admin/examlist', compact('examList'));
+        $examId = $request->id;
+
+        $examDetails = Exam::findOrFail($examId);
+        // logger($examDetails);    
+        return view('admin/questions.index', compact('examId', 'examDetails'));
     }
 
     /**
@@ -40,16 +41,6 @@ class ExamController extends Controller
     public function store(Request $request)
     {
         logger($request);
-        // $start_date_time = $request->examDate +' '+ $request->examTime;
-        $exam = Exam::create([
-            'name' => $request->examTitle, 
-            'start_date' => $request->examDate,
-            'start_time'=> $request->examTime, 
-            'duration' => $request->examDuration
-        ]);
-
-        Session::flash('alert-success', 'Exam created successfully');
-        return redirect()->route('admin.exam-list.index');
     }
 
     /**
@@ -83,16 +74,7 @@ class ExamController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // dd($request->all());
-        $exam = Exam::where('id', $request->examId)->update([
-            'name' => $request->examTitle, 
-            'start_date' => $request->examDate,
-            'start_time'=> $request->examTime, 
-            'duration' => $request->examDuration
-        ]);
-
-        Session::flash('alert-success', 'Exam updated successfully');
-        return redirect()->route('admin.exam-list.index');
+        //
     }
 
     /**
@@ -103,12 +85,6 @@ class ExamController extends Controller
      */
     public function destroy($id)
     {
-        logger('destroy');
-        logger($id);
-
-        Exam::where('id', $id)->delete();
-
-        Session::flash('alert-danger', 'Exam deleted successfully');
-        return redirect()->route('admin.exam-list.index');
+        //
     }
 }
